@@ -1,0 +1,24 @@
+{
+  "name": "qb-statsd",
+  "version": "0.0.1",
+  "description": "Adds statsd listeners to qb",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/Rafflecopter/node-qb-statsd"
+  },
+  "keywords": [
+    "qb"
+  ],
+  "author": "Jon Eisen <jon@rafflecopter.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rafflecopter/node-qb-statsd/issues"
+  },
+  "homepage": "https://github.com/Rafflecopter/node-qb-statsd",
+  "dependencies": {
+    "node-statsd": "0.0.7"
+  }
+}
