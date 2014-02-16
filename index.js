@@ -35,5 +35,7 @@ exports.enable = function (qb, statsdconf) {
     next()
   })
 
+  qb._statsd = statsd
+
   return statsd
 }

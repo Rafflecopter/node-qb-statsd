@@ -17,6 +17,8 @@ var statsdInstance = qbStatsd.enable(qb, {
   prefix: 'my.prefix',
   heartbeat: 5000
 })
+
+var statsdInstanceAgain = qb._statsd
 ```
 
 ## Statsd Stats
