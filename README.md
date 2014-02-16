@@ -1,39 +1,28 @@
-# qb-http
+# qb-statsd
 
-HTTP-based RPC dialect for communicating between and to [qb](https://github.com/rafflecopter/node-qb) instances.
+Adds StatsD statistics to your qb instance.
 
 ## Usage
 
-The http dialect is simple.
-
 ```
-npm install qb-http --save
+npm install qb-statsd --save
 ```
 
 ```javascript
-qb.speaks(require('qb-http'), { port: 8000, base: '/qb-api' })
-  .start()
+var qbStatsd = require('qb-statsd')
 
-  // Access a contact using http
-  .contact('http://some.other.server.com/qb')
-    // Push a task on to their 'service-name' queue
-    .push('service-name', {task:'task',desc:'ription'});
-
-// Or you can create an alias
-qb.contacts('http://some.other.server.com/qb', 'my-other-server')
-  .contact('my-other-server').push('other-service', {task:'4',you:'!'});
+var statsdInstance = qbStatsd.enable(qb, {
+  host: 'mystatsdhost.domain.tld',
+  port: 8125,
+  prefix: 'my.prefix',
+  heartbeat: 5000
+})
 ```
 
-The `.speaks.start` starts up a simple express server, while the `.contact('http://...').push` uses request to communicate with another qb instance.
+## Statsd Stats
 
-Options:
-
-- `port` Port Number (if not present, no server will be started to listen)
-- `app` Allows one to pass in an express app of their choosing.
-- `base` Base api prefix
-- `retry` Number of retries before quitting a push call.
-
-To access the underlying express server, use `qb.dialect('http').app`.
+- Heartbeat: Set to increment every `conf.heartbeat` ms. (Not done if `conf.heartbeat` is falsy)
+- For every task type, a counter of `prefix.tasktype.event` will be kept, with events of: `['push', 'process', 'success', 'failure']`
 
 ## License
 

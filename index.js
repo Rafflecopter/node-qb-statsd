@@ -4,14 +4,14 @@
 // vendor
 var StatsD = require('node-statsd').StatsD
 
-module.exports = function (qb, statsdconf) {
+exports.enable = function (qb, statsdconf) {
   var statsd = new StatsD(statsdconf.host, statsdconf.port)
     , prefix = statsdconf.prefix
 
 
   setInterval(function () {
     statsd.increment(prefix + '.heartbeat')
-  }, config.heartbeat)
+  }, statsdconf.heartbeat)
 
   // Setup some qb listeners to track progress
 
@@ -34,4 +34,6 @@ module.exports = function (qb, statsdconf) {
     statsd.increment([prefix, type, 'failure'].join('.'))
     next()
   })
+
+  return statsd
 }
