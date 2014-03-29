@@ -5,33 +5,33 @@
 var StatsD = require('node-statsd').StatsD
 
 exports.enable = function (qb, statsdconf) {
-  var statsd = new StatsD(statsdconf.host, statsdconf.port)
+  var statsd = new StatsD(statsdconf.host, statsdconf.port, (statsdconf.prefix || 'all') + '.')
     , prefix = statsdconf.prefix
 
 
   setInterval(function () {
-    statsd.increment(prefix + '.heartbeat')
+    statsd.increment('heartbeat')
   }, statsdconf.heartbeat)
 
   // Setup some qb listeners to track progress
 
   qb.post('push', function (type, task, next) {
-    statsd.increment([prefix, type, 'push'].join('.'))
+    statsd.increment(type + '.push')
     next()
   })
 
   qb.post('process', function (type, task, next) {
-    statsd.increment([prefix, type, 'process'].join('.'))
+    statsd.increment(type + '.process')
     next()
   })
 
   qb.on('finish', function (type, task, next) {
-    statsd.increment([prefix, type, 'success'].join('.'))
+    statsd.increment(type + '.success')
     next()
   })
 
   qb.on('fail', function (type, task, next) {
-    statsd.increment([prefix, type, 'failure'].join('.'))
+    statsd.increment(type + '.failure')
     next()
   })
 
