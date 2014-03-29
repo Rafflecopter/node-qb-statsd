@@ -1,10 +1,9 @@
 {
   "name": "qb-statsd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Adds statsd listeners to qb",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git@github.com/Rafflecopter/node-qb-statsd"
