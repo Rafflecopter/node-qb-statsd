@@ -21,7 +21,7 @@ exports.enable = function (qb, statsdconf) {
   })
 
   qb.post('process', function (type, task, next) {
-    statsd.increment([prefix, type, 'push'].join('.'))
+    statsd.increment([prefix, type, 'process'].join('.'))
     next()
   })
 
