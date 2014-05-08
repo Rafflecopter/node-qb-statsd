@@ -5,8 +5,7 @@
 var StatsD = require('node-statsd').StatsD
 
 exports.enable = function (qb, statsdconf) {
-  var statsd = new StatsD(statsdconf.host, statsdconf.port, (statsdconf.prefix || 'all') + '.')
-    , prefix = statsdconf.prefix
+  var statsd = statsdconf instanceof StatsD ? statsdconf : new StatsD(statsdconf.host, statsdconf.port, (statsdconf.prefix || 'all') + '.')
 
 
   setInterval(function () {
