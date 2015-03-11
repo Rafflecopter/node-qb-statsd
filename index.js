@@ -18,7 +18,7 @@ module.exports = function (qb, statsdconf) {
   // Setup some qb listeners to track progress
 
   qb.post('push', function (type, task, next) {
-    statsd.increment(type + '.push')
+    statsd.increment(task._type + '.push')
     next()
   })
 
