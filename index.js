@@ -4,13 +4,16 @@
 // vendor
 var StatsD = require('node-statsd').StatsD
 
-exports.enable = function (qb, statsdconf) {
-  var statsd = statsdconf.instance instanceof StatsD ? statsdconf.instance : new StatsD(statsdconf.host, statsdconf.port, (statsdconf.prefix || 'all') + '.')
+module.exports = function (qb, statsdconf) {
+  var existing_instance = statsdconf.instance instanceof StatsD
+    , statsd = existing_instance ? statsdconf.instance : createInstance(statsdconf)
+    , heartbeat
 
-
-  setInterval(function () {
-    statsd.increment('heartbeat')
-  }, statsdconf.heartbeat)
+  if (statsdconf.heartbeat) {
+    heartbeat = setInterval(function () {
+      statsd.increment('heartbeat')
+    }, statsdconf.heartbeat)
+  }
 
   // Setup some qb listeners to track progress
 
@@ -19,7 +22,7 @@ exports.enable = function (qb, statsdconf) {
     next()
   })
 
-  qb.post('process', function (type, task, next) {
+  qb.pre('process', function (type, task, next) {
     statsd.increment(type + '.process')
     next()
   })
@@ -34,7 +37,19 @@ exports.enable = function (qb, statsdconf) {
     next()
   })
 
+
+  qb.on('end', function () {
+    clearInterval(heartbeat)
+    if (!existing_instance) {
+      statsd.close()
+    }
+  })
+
   qb._statsd = statsd
 
   return statsd
+}
+
+function createInstance(conf) {
+  return new StatsD(conf.host, conf.port, (conf.prefix || 'all') + '.')
 }

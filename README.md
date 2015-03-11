@@ -1,6 +1,6 @@
 # qb-statsd
 
-Adds StatsD statistics to your qb instance.
+Adds StatsD statistics to your [qb](https://github.com/Rafflecopter/qb) instance.
 
 ## Usage
 
@@ -9,16 +9,14 @@ npm install qb-statsd --save
 ```
 
 ```javascript
-var qbStatsd = require('qb-statsd')
-
-var statsdInstance = qbStatsd.enable(qb, {
+qb.component(require('qb-statsd'), {
   host: 'mystatsdhost.domain.tld',
   port: 8125,
   prefix: 'my.prefix',
   heartbeat: 5000
 })
 
-var statsdInstanceAgain = qb._statsd
+var statsdInstance = qb._statsd
 ```
 
 ## Statsd Stats
