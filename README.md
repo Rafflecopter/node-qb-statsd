@@ -10,10 +10,11 @@ npm install qb-statsd --save
 
 ```javascript
 qb.component(require('qb-statsd'), {
-  host: 'mystatsdhost.domain.tld',
-  port: 8125,
-  prefix: 'my.prefix',
-  heartbeat: 5000
+  instance: <instance_of_StatsD>, // if you have your own instance
+  host: 'mystatsdhost.domain.tld', // if no instance, host is REQUIRED
+  port: 8125, // if no instance already setup, port is REQUIRED
+  prefix: 'my.prefix', // defaults to `all.`, not used if instance is passed
+  heartbeat: 5000 // OPTIONAL, if set, every `heartbeat` milliseconds, a heartbeat will be registered with statsd as an increment
 })
 
 var statsdInstance = qb._statsd
