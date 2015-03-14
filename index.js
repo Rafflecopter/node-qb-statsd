@@ -5,6 +5,9 @@
 var StatsD = require('node-statsd').StatsD
 
 module.exports = function (qb, statsdconf) {
+  if (!statsdconf)
+    throw new Error('Cannot attach statsd component without configuration options')
+
   var existing_instance = statsdconf.instance instanceof StatsD
     , statsd = existing_instance ? statsdconf.instance : createInstance(statsdconf)
     , heartbeat
@@ -32,7 +35,7 @@ module.exports = function (qb, statsdconf) {
     next()
   })
 
-  qb.on('fail', function (type, task, next) {
+  qb.on('fail', function (err, type, task, next) {
     statsd.increment(type + '.failure')
     next()
   })

@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "moniker": "^0.1.2",
-    "qb": "^2.0.0",
+    "qb": "^2.1.0",
     "xtend": "^4.0.0"
   }
 }
